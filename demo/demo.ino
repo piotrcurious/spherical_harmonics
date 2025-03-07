@@ -30,12 +30,12 @@ TFT_eSPI tft = TFT_eSPI();
 
 // Spherical harmonics parameters
 #define RADIUS 70
-#define POINT_SPACING 6
+#define POINT_SPACING 3
 #define ROTATION_SPEED 0.02
-#define ZOOM_FACTOR 120.0
+#define ZOOM_FACTOR 80.0
 
- const int numTheta = 18;  // memory limit
- const int numPhi = 18;
+ const int numTheta = 15;  // memory limit
+ const int numPhi = 12;
 
 // To store point coordinates for visualization
 struct Point3D {
@@ -209,16 +209,17 @@ void drawSphericalHarmonic(int l, int m) {
     float normalized_value = (points[i].value - min_value) / range;
     if (points[i].value >= 0) {
       // Positive values: RED with intensity based on value
-      uint8_t intensity = 128 + (uint8_t)(normalized_value * 127);
+      uint8_t intensity = 64 + (uint8_t)(normalized_value * (127+64));
       color = tft.color565(intensity, 0, 0);
     } else {
       // Negative values: BLUE with intensity based on value
-      uint8_t intensity = 128 + (uint8_t)((1.0 - normalized_value) * 127);
+      uint8_t intensity = 64 + (uint8_t)((1.0 - normalized_value) * (127+64));
       color = tft.color565(0, 0, intensity);
     }
     
     // Draw point
-    int radius = max(1, min(3, (int)(scale * 3)));
+  //  Serial.println(scale);
+    int radius = max(1, min(5, (int)(scale * 3.0)));
     tft.fillCircle(screen_x, screen_y, radius, color);
   }
   
